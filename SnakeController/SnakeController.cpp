@@ -213,11 +213,22 @@ Controller::Segment Controller::getNewHead() const
     return newHead;
 }
 
+bool Controller::setPause(const PauseInd& pause)
+{    
+    if (!isPaused) {return isPaused = false;}
+        else {return isPaused = true;}
+    
+}
+
 void Controller::receive(std::unique_ptr<Event> e)
 {
     switch(e->getMessageId())
     {
-        case TimeoutInd::MESSAGE_ID: return handleTimePassed(*static_cast<EventT<TimeoutInd> const&>(*e));
+        
+        case TimeoutInd::MESSAGE_ID: if(!isPaused)
+            {
+                return handleTimePassed(*static_cast<EventT<TimeoutInd> const&>(*e));
+            }
         case DirectionInd::MESSAGE_ID: return handleDirectionChange(*static_cast<EventT<DirectionInd> const&>(*e));
         case FoodInd::MESSAGE_ID: return handleFoodPositionChange(*static_cast<EventT<FoodInd> const&>(*e));
         case FoodResp::MESSAGE_ID: return handleNewFood(*static_cast<EventT<FoodResp> const&>(*e));
