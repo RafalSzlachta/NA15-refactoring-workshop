@@ -2,22 +2,28 @@
 
 #include <utility>
 
+#include "SnakePosition.hpp"
+#include "SnakeDimention.hpp"
+
 namespace Snake
 {
+
+struct Position;
+struct Dimention;
 
 class World
 {
 public:
-    World(std::pair<int, int> dimension, std::pair<int, int> food);
+    World(Dimention dimension, Position food);
 
-    void setFoodPosition(std::pair<int, int> position);
-    std::pair<int, int> getFoodPosition() const;
+    void setFoodPosition(Position position);
+    Position getFoodPosition() const;
 
     bool contains(int x, int y) const;
 
 private:
-    std::pair<int, int> m_foodPosition;
-    std::pair<int, int> m_dimension;
+    Position m_foodPosition;
+    Dimention m_dimension;
 };
 
 } // namespace Snake
